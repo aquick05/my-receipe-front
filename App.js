@@ -1,20 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import "react-native-gesture-handler";
+import React from "react";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
+import HomeScreen from "./src/screens/HomeScreen";
+import ProfileScreen from "./src/screens/ProfileScreen";
+import SettingsScreen from "./src/screens/SettingsScreen";
+import AuthScreen from "./src/screens/AuthScreen";
+import { colors } from "./src/theme/colors";
+const Drawer = createDrawerNavigator();
+const navTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: colors.bg,
+    card: colors.card,
+    text: colors.text,
+    border: colors.border,
+    primary: colors.primary,
+  },
+};
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer theme={navTheme}>
+      <Drawer.Navigator
+        initialRouteName="Accueil"
+        screenOptions={{
+          headerShown: false,
+          drawerPosition: "right",
+          drawerStyle: {
+            width: "50%",
+          },
+        }}
+      >
+        <Drawer.Screen name="Accueil" component={HomeScreen} />
+        <Drawer.Screen name="connexion/inscription" component={AuthScreen} />
+
+        <Drawer.Screen name="Profil" component={ProfileScreen} />
+        <Drawer.Screen name="Paramètres" component={SettingsScreen} />
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
