@@ -1,5 +1,5 @@
 import "react-native-gesture-handler";
-import React from "react";
+import { useState } from "react";
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 
@@ -21,6 +21,7 @@ const navTheme = {
   },
 };
 export default function App() {
+  const [isAuth, setIsAuth] = useState(false);
   return (
     <NavigationContainer theme={navTheme}>
       <Drawer.Navigator
@@ -34,9 +35,12 @@ export default function App() {
         }}
       >
         <Drawer.Screen name="Accueil" component={HomeScreen} />
-        <Drawer.Screen name="connexion/inscription" component={AuthScreen} />
-
-        <Drawer.Screen name="Profil" component={ProfileScreen} />
+        {isAuth ? null : (
+          <Drawer.Screen name="connexion/inscription" component={AuthScreen} />
+        )}
+        {isAuth ? (
+          <Drawer.Screen name="Profil" component={ProfileScreen} />
+        ) : null}
         <Drawer.Screen name="Paramètres" component={SettingsScreen} />
       </Drawer.Navigator>
     </NavigationContainer>
